@@ -1,5 +1,5 @@
-name: Ingesta y Limpieza Automática de Datos
-
+name: Pipeline Big Data - EA2 Ingesta + Limpieza
+ 
 on:
   push:
     branches: [ "main", "master" ]
@@ -10,42 +10,39 @@ on:
 # Permite que el bot tenga acceso de escritura al repositorio
 permissions:
   contents: write
-
+ 
 jobs:
-  build-and-run:
+  pipeline:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Clonar Repositorio
-      uses: actions/checkout@v4
-
-    - name: Configurar Python 3.10
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.10"
-
-    - name: Instalar Dependencias
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Ejecutar Script de Ingesta y Limpieza
-      run: |
-        python main.py
-
-    - name: Hacer Commit y Push de los Cambios Generados
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add src/
-        git commit -m "Auto-update: actualización de SQLite, Excel y Reporte de Auditoría" || echo "No hay cambios para subir"
-        git push
-
-    - name: Subir Artefactos (Excel y Reporte de Auditoría)
-      uses: actions/upload-artifact@v4
-      with:
-        name: evidencias-ingesta
-        path: |
-          src/xlsx/cleaned_data.xlsx
-          src/static/auditoria/cleaning_report.txt
-          src/db/ingestion.db
+      - uses: actions/checkout@v4
+ 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+ 
+      - name: Instalar Dependencias
+        run: |
+         python -m pip install --upgrade pip
+         pip install -r requirements.txt
+ 
+      - name: Etapa 1 - Ingesta (extraccion desde el API)
+        run: python main.py
+ 
+      - name: Etapa 2 - Limpieza (lectura desde la nube simulada)
+        run: python cleaning.py
+ 
+      - name: Verificar artefactos
+        run: |
+          test -f src/xlsx/cleaned_data.xlsx && echo "Datos limpios OK"
+          test -f src/static/auditoria/cleaning_report.txt && echo "Auditoria OK"
+          cat src/static/auditoria/cleaning_report.txt
+ 
+      - name: Publicar evidencias
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencias-limpieza
+          path: |
+            src/db/ingestion.db
+            src/xlsx/cleaned_data.xlsx
+            src/static/auditoria/cleaning_report.txt

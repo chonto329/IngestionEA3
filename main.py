@@ -16,8 +16,8 @@ API_URL = "https://www.datos.gov.co/resource/v8qi-smj7.json?$limit=50000"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "src", "db", "ingestion.db")
-XLSX_PATH = os.path.join(BASE_DIR, "src", "xlsx", "cleaned_data.xlsx")
-AUDIT_PATH = os.path.join(BASE_DIR, "src", "static", "auditoria", "cleaning_report.txt")
+XLSX_PATH = os.path.join(BASE_DIR, "src", "xlsx", "ingestion.xlsx")
+AUDIT_PATH = os.path.join(BASE_DIR, "src", "static", "auditoria", "ingestion.txt")
 
 
 # ---------------------------------------------------------------
