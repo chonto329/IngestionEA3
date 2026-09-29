@@ -1,59 +1,76 @@
-name: Big Data Ingestion and Enrichment Pipeline
+name: Pipeline Big Data - Ingesta + Limpieza + Enriquecimiento
 
 on:
   push:
     branches: [ "main", "master" ]
-  pull_request:
-    branches: [ "main", "master" ]
+  schedule:
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
-jobs:
-  run-enrichment-pipeline:
-    name: Ejecución del Pipeline de Enriquecimiento
-    runs-on: ubuntu-latest
+# Permite que el bot tenga acceso de escritura al repositorio para guardar artefactos si es necesario
+permissions:
+  contents: write
 
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
     steps:
-      - name: 1. Descargar el código fuente del repositorio
+      - name: 1. Descargar el código fuente
         uses: actions/checkout@v4
 
       - name: 2. Configurar entorno de Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.11"
 
-      - name: 3. Instalar dependencias
+      - name: 3. Instalar Dependencias
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 4. Ejecutar proceso de ingesta, enriquecimiento y exportación
-        run: |
-          python src/enrichement.py
+      - name: 4. Etapa 1 - Ingesta (extracción desde el API)
+        run: python main.py
 
-      - name: 5. Imprimir reporte de auditoría en Logs (Evidencia)
-        run: |
-          echo "=========================================================="
-          echo "         REPORTE DE AUDITORÍA GENERADO EN RUNNER          "
-          echo "=========================================================="
-          cat static/auditoria/enriched_report.txt
+      - name: 5. Etapa 2 - Limpieza (lectura desde la nube simulada)
+        run: python cleaning.py
 
-      - name: 6. Almacenar Artefactos de Salida (Data Enriquecida & Reportes)
+      - name: 6. Etapa 3 - Enriquecimiento de datos
+        run: python src/enrichment.py
+
+      - name: 7. Verificar artefactos generados
+        run: |
+          test -f src/xlsx/cleaned_data.xlsx && echo "Datos limpios OK"
+          test -f src/static/auditoria/cleaning_report.txt && echo "Auditoría limpieza OK"
+          test -f src/xlsx/enriched_data.xlsx && echo "Datos enriquecidos OK"
+          test -f src/static/auditoria/enriched_report.txt && echo "Auditoría enriquecimiento OK"
+          
+          echo "=========================================================="
+          echo "              REPORTE DE AUDITORÍA - LIMPIEZA             "
+          echo "=========================================================="
+          cat src/static/auditoria/cleaning_report.txt
+          
+          echo "=========================================================="
+          echo "           REPORTE DE AUDITORÍA - ENRIQUECIMIENTO         "
+          echo "=========================================================="
+          cat src/static/auditoria/enriched_report.txt
+
+      - name: 8. Publicar evidencias
         uses: actions/upload-artifact@v4
         with:
-          name: evidencia-enriquecimiento-datos
+          name: evidencias-pipeline-completo
           path: |
-            xlsx/enriched_data.xlsx
-            static/auditoria/enriched_report.txt
-            db/ingestion.db
-          retention-days: 30
+            src/db/ingestion.db
+            src/xlsx/cleaned_data.xlsx
+            src/xlsx/enriched_data.xlsx
+            src/static/auditoria/cleaning_report.txt
+            src/static/auditoria/enriched_report.txt
 
-      - name: 7. Commit & Push de Archivos Generados al Repositorio (Opcional)
+      - name: 9. Guardar cambios en el repositorio (Commit & Push)
         if: github.event_name == 'push'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add db/ static/ xlsx/ sources/
+          git add src/db/ src/xlsx/ src/static/auditoria/
           git status
-          git commit -m "auto(pipeline): actualización de base de datos, reporte y dataset enriquecido [skip ci]" || echo "No hay cambios para confirmar."
+          git commit -m "auto(pipeline): ejecución completa de ingesta, limpieza y enriquecimiento [skip ci]" || echo "No hay cambios para hacer commit."
           git push
