@@ -29,7 +29,7 @@ jobs:
 
       - name: 4. Ejecutar proceso de ingesta, enriquecimiento y exportación
         run: |
-          python enrichment.py
+          python src/enrichement.py
 
       - name: 5. Imprimir reporte de auditoría en Logs (Evidencia)
         run: |
