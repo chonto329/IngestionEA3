@@ -1,0 +1,17 @@
+REPORTE DE AUDITORIA - ETAPA DE LIMPIEZA
+=======================================================
+--- Estado ANTES de la limpieza ---
+Registros            : 20421
+Duplicados           : 0
+Sin Proveedor        : 0
+Nulos por columna    : {'a_o': 0, 'trimestre': 0, 'proveedor': 0, 'cod_municipio': 0, 'municipio': 0, 'cabecera_municipal': 0, 'cod_centro_poblado': 0, 'centro_poblado': 0, 'cobertura_2g': 0, 'cobertura_3g': 0, 'cobertura_hspa_hspa_dc': 0, 'cobertuta_4g': 0, 'cobertura_lte': 0, 'cobertura_5g': 0}
+
+--- Operaciones realizadas ---
+* Columna 'cobertuta_4g' renombrada a 'cobertura_4g'
+* Registros duplicados eliminados: 0
+* Variable derivada creada: 'total_tecnologias_cobertura'
+
+--- Estado DESPUES de la limpieza ---
+Registros            : 20421
+Duplicados           : 0
+Nulos por columna    : {'a_o': 0, 'trimestre': 0, 'proveedor': 0, 'cod_municipio': 0, 'municipio': 0, 'cabecera_municipal': 0, 'cod_centro_poblado': 0, 'centro_poblado': 0, 'cobertura_2g': 0, 'cobertura_3g': 0, 'cobertura_hspa_hspa_dc': 0, 'cobertura_4g': 0, 'cobertura_lte': 0, 'cobertura_5g': 0, 'total_tecnologias_cobertura': 0}
