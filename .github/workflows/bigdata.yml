@@ -35,7 +35,7 @@ jobs:
         run: python cleaning.py
 
       - name: 6. Etapa 3 - Enriquecimiento de datos
-        run: python src/enrichment.py
+        run: python src/enrichement.py
 
       - name: 7. Verificar artefactos generados
         run: |
