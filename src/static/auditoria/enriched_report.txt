@@ -1,0 +1,78 @@
+================================================================================
+               REPORTE DE AUDITORÍA DE INGESTA Y ENRIQUECIMIENTO DE DATOS
+================================================================================
+Fecha de Ejecución      : 2026-09-29 21:18:48
+Modo de Operación       : INSERCIÓN INCREMENTAL (ANEXAR / APPEND)
+Base de Datos Destino   : ingestion.db
+Estado de la Operación  : COMPLETADO CON ÉXITO
+================================================================================
+
+1. RESUMEN DE LA SESIÓN DE INGESTA ACTUAL
+--------------------------------------------------------------------------------
+Se procesaron correctamente las 6 fuentes heterogéneas sin eliminar ni truncar
+los datos previamente existentes en la base de datos.
+
+Métricas por Fuente de Datos Ingestada (14 Campos por Registro):
+  * Fuente 1 (JSON)  : 10 registros
+  * Fuente 2 (XLSX)  : 10 registros
+  * Fuente 3 (CSV)   : 10 registros
+  * Fuente 4 (XML)   : 10 registros
+  * Fuente 5 (HTML)  : 10 registros
+  * Fuente 6 (TXT)   : 10 registros
+
+  - Total registros ingestados en esta sesión : 60 registros
+  - Total registros transformados en LIMPIOS  : 60 registros
+
+2. BALANCE GENERAL DE LA BASE DE DATOS (HISTÓRICO ACUMULADO)
+--------------------------------------------------------------------------------
+  - Registros previos en tabla RAW           : 20421
+  - Registros añadidos en esta sesión        : 60
+  - Total acumulado en tabla RAW             : 20481
+
+  - Registros previos en tabla LIMPIOS       : 20421
+  - Registros añadidos en esta sesión        : 60
+  - Total acumulado en tabla LIMPIOS         : 20481
+
+3. DISTRIBUCIÓN Y COBERTURA TECNOLÓGICA (TOTAL ACUMULADO)
+--------------------------------------------------------------------------------
+Distribución por Año:
+  - Año 2015: 587 registros (2.9%)
+  - Año 2016: 2351 registros (11.5%)
+  - Año 2017: 2414 registros (11.8%)
+  - Año 2018: 2388 registros (11.7%)
+  - Año 2019: 2461 registros (12.0%)
+  - Año 2020: 2376 registros (11.6%)
+  - Año 2021: 2951 registros (14.4%)
+  - Año 2022: 2915 registros (14.2%)
+  - Año 2023: 2038 registros (10.0%)
+
+Distribución por Proveedor:
+  - ALMACENES EXITO INVERSIONES S.A.S.: 185 registros
+  - AVANTEL S.A.S: 2007 registros
+  - CLARO     : 12 registros
+  - COLOMBIA MOVIL  S.A ESP: 1907 registros
+  - COLOMBIA TELECOMUNICACIONES S.A. E.S.P.: 3503 registros
+  - COMUNICACION CELULAR S A COMCEL S A: 10900 registros
+  - EMPRESA DE TELECOMUNICACIONES DE BOGOTA S.A. ESP: 910 registros
+  - ETB       : 12 registros
+  - MOVISTAR  : 12 registros
+  - PARTNERS TELECOM COLOMBIA SAS: 943 registros
+  - TIGO      : 12 registros
+  - UNE EPM TELECOMUNICACIONES S.A.: 66 registros
+  - WOM       : 12 registros
+
+Estadísticas de Cobertura Tecnológica:
+  - Cobertura 5G activa ('S')                : 30 registros
+  - Promedio de tecnologías por registro     : 0.01 de 6 tecnologías
+
+4. VALIDACIÓN DE INTEGRIDAD Y REGLAS DE NEGOCIO
+--------------------------------------------------------------------------------
+  [OK] Preservación de Datos Existentes      : Verificado (0 registros eliminados)
+  [OK] Mapeo de Campo 'cobertuta_4g'         : Normalizado a 'cobertura_4g'
+  [OK] Mapeo de Fuentes RAW vs LIMPIOS       : Coincidencia del 100%
+  [OK] Cálculo de 'total_tecnologias_cobertura': Correcto (Rango 0 - 6)
+  [OK] Generación de Evidencia XLSX          : Guardado en /home/runner/work/IngestionEA3/IngestionEA3/src/xlsx/enriched_data.xlsx
+
+================================================================================
+ESTADO FINAL: PROCESO FINALIZADO EXITOSAMENTE
+================================================================================
