@@ -1,7 +1,7 @@
 ================================================================================
                REPORTE DE AUDITORÍA DE INGESTA Y ENRIQUECIMIENTO DE DATOS
 ================================================================================
-Fecha de Ejecución      : 2026-09-29 21:18:48
+Fecha de Ejecución      : 2026-09-30 03:13:50
 Modo de Operación       : INSERCIÓN INCREMENTAL (ANEXAR / APPEND)
 Base de Datos Destino   : ingestion.db
 Estado de la Operación  : COMPLETADO CON ÉXITO
